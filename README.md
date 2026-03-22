@@ -1,91 +1,60 @@
-# BlackRoad Road Fleet — Sovereign Forks
+# Road Fleet Forks
 
-> Every dependency we use, we own. Fork it, brand it, deploy it, control it.
+Registry of 65 open-source dependencies. Each one forked, named, assigned to a node, and deployed from our infrastructure.
 
-**BlackRoad OS, Inc.** — Delaware C-Corp, founded November 17, 2025.
+## What This Is
 
-## Road Fleet Registry
+Every critical dependency is forked into this organization instead of pulled from upstream at deploy time. Each fork gets a Road name, a node assignment, and runs from our copy. This repo is the registry.
 
-| Road Name | Upstream | Status | Deployed On | Purpose |
-|-----------|----------|--------|-------------|---------|
-| **TollBooth** | WireGuard | LIVE | All 7 nodes | Encrypted VPN mesh |
-| **PitStop** | Pi-hole | LIVE | Alice | DNS filtering, ad blocking |
-| **Passenger** | Ollama | LIVE | 4 nodes | Local AI inference engine |
-| **OneWay** | Caddy | LIVE | Gematria | TLS edge, reverse proxy |
-| **RearView** | Qdrant | LIVE | Alice | Vector DB, semantic search |
-| **Curb** | MinIO | LIVE | Cecilia | S3-compatible object storage |
-| **RoundAbout** | Headscale | LIVE | Octavia | VPN coordination |
-| **CarPool** | NATS | LIVE | Octavia | Pub/sub messaging |
-| **OverPass** | n8n | LIVE | Octavia | Workflow automation |
-| **BackRoad** | Portainer | LIVE | Octavia | Container management |
-| **RoadMap** | Grafana | LIVE | Aria | Monitoring dashboards |
-| **RoadCode** | Gitea | LIVE | Octavia :3100 | Git hosting (239 repos) |
-| **RoadBase** | PostgreSQL | LIVE | Alice, Cecilia | Relational database |
-| **RoadCache** | Redis | LIVE | Alice | In-memory cache |
-| **RoadPulse** | InfluxDB | LIVE | Cecilia | Time-series metrics |
-| **RoadLite** | SQLite | LIVE | Everywhere | Embedded database |
-| **RoadVoice** | Whisper | NEW | — | Speech-to-text |
-| **RoadLlama** | llama.cpp | NEW | — | C++ LLM inference |
-| **RoadRunner** | act_runner | NEW | Octavia | CI/CD runner |
-| **RoadProcess** | pm2 | LIVE | Alice, Octavia | Process manager |
-| **RoadProxy** | nginx | LIVE | Alice, Lucidia | Reverse proxy |
-| **RoadDNS** | PowerDNS | LIVE | Lucidia, Gematria | Authoritative DNS |
-| **RoadTunnel** | cloudflared | LIVE | Alice | Tunnel client |
-| **RoadWatch** | Prometheus | NEW | — | Metrics collection |
-| **RoadLight** | Uptime Kuma | NEW | — | Uptime monitoring |
-| **RoadGuard** | fail2ban | LIVE | Alice | Intrusion prevention |
-| **RoadShield** | CrowdSec | NEW | — | Threat intelligence |
-| **RoadCert** | certbot | LIVE | Gematria | TLS automation |
-| **RoadChat** | Matrix/Element | NEW | — | Sovereign messaging |
-| **RoadDraw** | Excalidraw | NEW | — | Collaborative whiteboard |
-| **RoadDocs** | HedgeDoc | NEW | — | Collaborative docs |
-| **RoadMetrics** | Plausible | NEW | — | Privacy-first analytics |
-| **RoadLearn** | Moodle | NEW | — | Learning management |
-| **RoadCodec** | FFmpeg | NEW | — | Video processing |
-| **RoadStream** | Jellyfin | NEW | — | Media server |
-| **RoadTube** | PeerTube | NEW | — | Video hosting |
-| **RoadCanvas** | Stable Diffusion | NEW | — | Image generation |
+## Core Fleet
 
-## Architecture
+| Road Name | Upstream | Deployed On | Purpose |
+|-----------|----------|-------------|---------|
+| **RoadCode** | Gitea | Octavia | Git hosting (239 repos) |
+| **TollBooth** | WireGuard | All 7 nodes | VPN mesh |
+| **PitStop** | Pi-hole | Alice | DNS filtering |
+| **Passenger** | Ollama | 4 nodes | Local AI inference |
+| **OneWay** | Caddy | Gematria | TLS edge proxy |
+| **RearView** | Qdrant | Alice | Vector search |
+| **Curb** | MinIO | Cecilia | Object storage |
+| **RoundAbout** | Headscale | Octavia | Mesh coordination |
+| **CarPool** | NATS | Octavia | Message bus |
+| **OverPass** | n8n | Octavia | Workflow automation |
+| **BackRoad** | Portainer | Octavia | Container management |
+| **RoadMap** | Grafana | Alice | Fleet monitoring |
 
-```
-Internet → Gematria (OneWay/Caddy) → WireGuard (TollBooth) → Pi Fleet
-                                                                ├── Alice (RoadProxy, PitStop, RoadBase, RoadCache, RearView)
-                                                                ├── Cecilia (Passenger/Ollama, Curb/MinIO, RoadPulse)
-                                                                ├── Octavia (RoadCode/Gitea, CarPool/NATS, BackRoad/Docker)
-                                                                ├── Aria (RoadMap/Grafana)
-                                                                └── Lucidia (RoadProxy, RoadDNS)
+Plus 53 additional forks covering databases, runtimes, DNS, TLS, CI/CD, and media.
+
+## Why Fork Everything
+
+1. **No surprise breakage** — upstream changes do not hit production without review
+2. **Audit trail** — every change tracked in your git history
+3. **Availability** — if upstream disappears, you still have the code
+4. **Customization** — patches stay clean, rebases are intentional
+
+## Updating a Fork
+
+```bash
+git remote add upstream <original-repo-url>
+git fetch upstream
+git log upstream/main --oneline -20    # Review what changed
+git merge upstream/main                # Merge when ready
 ```
 
-## Why Fork Everything?
-
-1. **Sovereignty** — No vendor can pull the rug. We control our stack.
-2. **Customization** — Each fork is branded and optimized for BlackRoad fleet.
-3. **Security** — We audit and patch on our timeline, not upstream's.
-4. **Identity** — Road Fleet names create a cohesive ecosystem language.
-5. **Resilience** — If upstream dies, we keep running.
-
-## Fork Standards
-
-Every Road Fleet fork must:
-- [ ] Be forked to `BlackRoad-OS-Inc/<RoadName>`
-- [ ] Have a BlackRoad-branded README with Road Fleet branding
-- [ ] Include `RoadCode/` directory with `roadcode.json`
-- [ ] Include `LICENSE` (proprietary BlackRoad OS, Inc.)
-- [ ] Include `TODO.md` and `ROADMAP.md`
-- [ ] Be deployed on at least one Pi fleet node
-- [ ] Be registered in the backend API (`backend.blackroad.io/api/repos`)
+Updates are pulled manually after review. No automatic sync from upstream.
 
 ## Infrastructure
 
 - **5 Raspberry Pis**: Alice, Cecilia, Octavia, Aria, Lucidia
-- **2 DigitalOcean droplets**: Gematria (edge), Anastasia (cloud)
-- **52 TOPS** AI acceleration (2x Hailo-8)
-- **WireGuard mesh**: 7 nodes, 12 connections
-- **239 repos** on Gitea (Octavia :3100)
+- **2 cloud servers**: Gematria (edge), Anastasia
+- **7-node mesh** connected via WireGuard (TollBooth)
+
+## License
+
+Proprietary. Copyright (c) 2024-2026 BlackRoad OS, Inc. All rights reserved.
+
+Individual forks retain their original upstream licenses. The registry, Road naming, deployment configs, and customizations are proprietary.
 
 ---
 
-**BlackRoad OS — Remember the Road. Pave Tomorrow.**
-
-*Proprietary. BlackRoad OS, Inc. All rights reserved.*
+*Remember the Road. Pave Tomorrow.*
